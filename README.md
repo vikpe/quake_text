@@ -1,2 +1,3 @@
 # quake_text
-> A crate for working with Quake strings and characters
+
+> Utility for handling Quake strings and characters.
