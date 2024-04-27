@@ -1,2 +1,2 @@
 # quake_text
-A create for working with Quake strings and characters.
+> A crate for working with Quake strings and characters
