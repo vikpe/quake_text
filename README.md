@@ -1,3 +1,3 @@
 # quake_text
 
-> Utility for handling Quake strings and characters.
+> Utils for Quake strings and characters

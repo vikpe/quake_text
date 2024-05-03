@@ -1,6 +1,15 @@
 use crate::charset::ASCII_TABLE;
 use crate::unicode;
 
+/// Convert bytestr to ascii
+///
+/// # Example
+///
+/// ```
+/// use quake_text::bytestr::to_ascii;
+///
+/// assert_eq!(to_ascii(&[5, 225, 248, 229]), "_axe");
+/// ```
 pub fn to_ascii(bytes: &[u8]) -> String {
     bytes
         .iter()
@@ -10,6 +19,15 @@ pub fn to_ascii(bytes: &[u8]) -> String {
         .to_string()
 }
 
+/// Convert bytestr to unicode
+///
+/// # Example
+///
+/// ```
+/// use quake_text::bytestr::to_unicode;
+///
+/// assert_eq!(to_unicode(&[5, 225, 248, 229]), "\u{5}áøå");
+/// ```
 pub fn to_unicode(bytes: &[u8]) -> String {
     bytes
         .iter()
@@ -19,28 +37,15 @@ pub fn to_unicode(bytes: &[u8]) -> String {
         .to_string()
 }
 
+/// Convert bytestr to utf8
+///
+/// # Example
+///
+/// ```
+/// use quake_text::bytestr::to_utf8;
+///
+/// assert_eq!(to_utf8(&[5, 225, 248, 229]), "•axe");
+/// ```
 pub fn to_utf8(bytes: &[u8]) -> String {
     unicode::to_utf8(&to_unicode(bytes))
-}
-
-#[cfg(test)]
-mod tests {
-    use pretty_assertions::assert_eq;
-
-    use super::*;
-
-    #[test]
-    fn test_to_ascii() {
-        assert_eq!(to_ascii(&[5, 225, 248, 229]), "_axe");
-    }
-
-    #[test]
-    fn test_to_unicode() {
-        assert_eq!(to_unicode(&[225, 248, 229]), "áøå");
-    }
-
-    #[test]
-    fn test_to_utf8() {
-        assert_eq!(to_utf8(&[5, 225, 248, 229]), "•axe");
-    }
 }

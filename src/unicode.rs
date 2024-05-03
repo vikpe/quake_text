@@ -1,9 +1,28 @@
+/// unicode
 use crate::bytestr;
 
+/// Convert unicode to ascii
+///
+/// # Example
+///
+/// ```
+/// use quake_text::unicode::to_ascii;
+///
+/// assert_eq!(to_ascii("áøå"), "axe");
+/// ```
 pub fn to_ascii(ustr: &str) -> String {
     bytestr::to_ascii(&to_bytestr(ustr))
 }
 
+/// Convert unicode to utf8
+///
+/// # Example
+///
+/// ```
+/// use quake_text::unicode::to_utf8;
+///
+/// assert_eq!(to_utf8("áøå"), "axe");
+/// ```
 pub fn to_utf8(ustr: &str) -> String {
     to_bytestr(ustr)
         .iter()
@@ -16,6 +35,15 @@ pub fn to_utf8(ustr: &str) -> String {
         .collect()
 }
 
+/// Convert unicode to bytestr
+///
+/// # Example
+///
+/// ```
+/// use quake_text::unicode::to_bytestr;
+///
+/// assert_eq!(to_bytestr("áøå"), vec![225, 248, 229]);
+/// ```
 pub fn to_bytestr(value: &str) -> Vec<u8> {
     value.chars().map(|c| c as u8).collect::<Vec<u8>>()
 }
@@ -27,23 +55,11 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_to_ascii() {
-        assert_eq!(to_ascii("áøå"), "axe");
-    }
-
-    #[test]
     fn test_to_utf8() {
-        assert_eq!(to_utf8("áøå"), "axe");
-
         let ascii_chars = (32..=126).map(char::from).collect::<String>();
         assert_eq!(to_utf8(&ascii_chars), ascii_chars);
 
         let mixed_chars = (28..=40).map(char::from).collect::<String>();
         assert_eq!(to_utf8(&mixed_chars), "•    !\"#$%&'(");
-    }
-
-    #[test]
-    fn test_to_bstr() {
-        assert_eq!(to_bytestr("áøå"), vec![225, 248, 229]);
     }
 }
