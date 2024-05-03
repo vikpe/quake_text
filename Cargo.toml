@@ -1,6 +1,6 @@
 [package]
 name = "quake_text"
-description = "Utility for handling Quake strings and characters."
+description = "Utils for Quake strings and characters."
 keywords = ["quake", "quakeworld", "strings"]
 repository = "https://github.com/vikpe/quake_text"
 authors = ["Viktor Persson <viktor.persson@arcsin.se>"]
