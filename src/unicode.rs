@@ -28,6 +28,9 @@ pub fn to_utf8(ustr: &str) -> String {
         .iter()
         .map(|c| c & 127) // strip color
         .map(|c| match c {
+            16 => '[',
+            17 => ']',
+            18..=27 => char::from(c + 30),
             32..=126 => char::from(c),
             0 | 5 | 14 | 15 | 28 => '•',
             _ => ' ',
@@ -56,6 +59,12 @@ mod tests {
 
     #[test]
     fn test_to_utf8() {
+        let gold_brackets = (16..=17).map(char::from).collect::<String>();
+        assert_eq!(to_utf8(&gold_brackets), "[]");
+
+        let green_numbers = (18..=27).map(char::from).collect::<String>();
+        assert_eq!(to_utf8(&green_numbers), "0123456789");
+
         let ascii_chars = (32..=126).map(char::from).collect::<String>();
         assert_eq!(to_utf8(&ascii_chars), ascii_chars);
 
