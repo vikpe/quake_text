@@ -51,6 +51,21 @@ pub fn to_bytestr(value: &str) -> Vec<u8> {
     value.chars().map(|c| c as u8).collect::<Vec<u8>>()
 }
 
+/// Sort array of unicode strings (ascending, case insensitive)
+///
+/// # Example
+///
+/// ```
+/// use quake_text::unicode::sort;
+/// let values = vec!["Axe2".to_string(), "bÏÏm".to_string(), "áøå1".to_string()];
+/// assert_eq!(sort(&values), vec!["áøå1".to_string(), "Axe2".to_string(), "bÏÏm".to_string()]);
+/// ```
+pub fn sort(values: &[String]) -> Vec<String> {
+    let mut values = values.to_vec();
+    values.sort_by_cached_key(|v| to_utf8(v).to_lowercase());
+    values
+}
+
 #[cfg(test)]
 mod tests {
     use pretty_assertions::assert_eq;
