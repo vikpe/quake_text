@@ -52,7 +52,7 @@ pub fn to_bytestr(value: &str) -> Vec<u8> {
     value.chars().map(|c| c as u8).collect::<Vec<u8>>()
 }
 
-/// Sort array of unicode strings (ascending, case insensitive)
+/// Sort an array of unicode strings (ascending, case insensitive)
 ///
 /// # Example
 ///
@@ -67,7 +67,7 @@ pub fn sort(values: &[String]) -> Vec<String> {
     values
 }
 
-/// Normalize unicode string
+/// Normalize a unicode string (convert to case-insensitive utf8)
 ///
 /// # Example
 ///
@@ -79,7 +79,7 @@ pub fn normalize(value: &str) -> String {
     to_utf8(value).to_lowercase()
 }
 
-/// Compare unicode strings (for normalized sorting)
+/// Order unicode strings
 /// # Example
 ///
 /// ```
