@@ -1,5 +1,6 @@
 /// unicode
 use crate::bytestr;
+use std::cmp::Ordering;
 
 /// Convert unicode to ascii
 ///
@@ -51,7 +52,7 @@ pub fn to_bytestr(value: &str) -> Vec<u8> {
     value.chars().map(|c| c as u8).collect::<Vec<u8>>()
 }
 
-/// Sort array of unicode strings (ascending, case insensitive)
+/// Sort an array of unicode strings (ascending, case insensitive)
 ///
 /// # Example
 ///
@@ -62,8 +63,33 @@ pub fn to_bytestr(value: &str) -> Vec<u8> {
 /// ```
 pub fn sort(values: &[String]) -> Vec<String> {
     let mut values = values.to_vec();
-    values.sort_by_cached_key(|v| to_utf8(v).to_lowercase());
+    values.sort_by_cached_key(|v| normalize(v));
     values
+}
+
+/// Normalize a unicode string (convert to case-insensitive utf8)
+///
+/// # Example
+///
+/// ```
+/// use quake_text::unicode::normalize;
+/// assert_eq!(normalize("BÏÏM"), "boom");
+/// ```
+pub fn normalize(value: &str) -> String {
+    to_utf8(value).to_lowercase()
+}
+
+/// Order unicode strings
+/// # Example
+///
+/// ```
+/// use std::cmp::Ordering;
+/// use quake_text::unicode::ord;
+/// assert_eq!(ord("BÏÏM", "boom"), Ordering::Equal);
+/// assert_eq!(ord("áøå1", "axe2"), Ordering::Less);
+/// ```
+pub fn ord(a: &str, b: &str) -> Ordering {
+    normalize(a).cmp(&normalize(b))
 }
 
 #[cfg(test)]
@@ -85,5 +111,24 @@ mod tests {
 
         let mixed_chars = (28..=40).map(char::from).collect::<String>();
         assert_eq!(to_utf8(&mixed_chars), "•    !\"#$%&'(");
+    }
+
+    #[test]
+    fn test_ord() {
+        let values = vec![
+            "BÏÏM0".to_string(),
+            "Axe2".to_string(),
+            "bÏÏm1".to_string(),
+            "áøå1".to_string(),
+        ];
+        assert_eq!(
+            sort(&values),
+            vec![
+                "áøå1".to_string(),
+                "Axe2".to_string(),
+                "BÏÏM0".to_string(),
+                "bÏÏm1".to_string(),
+            ]
+        );
     }
 }
