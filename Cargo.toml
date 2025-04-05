@@ -2,7 +2,7 @@
 name = "quake_text"
 description = "Utils for Quake strings and characters."
 keywords = ["quake", "quakeworld", "strings"]
-repository = "https://github.com/vikpe/quake_text"
+repository = "https://github.com/quakeworld/quake_text"
 authors = ["Viktor Persson <viktor.persson@arcsin.se>"]
 version = "0.3.0"
 edition = "2021"
